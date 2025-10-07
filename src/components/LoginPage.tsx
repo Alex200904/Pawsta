@@ -55,14 +55,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-8">
-          <button
-            onClick={onBack}
-            className="inline-flex items-center text-orange-600 hover:text-orange-700 mb-6 transition-colors"
-          >
-            <ArrowRight className="h-4 w-4 mr-2 rotate-180" />
-            Back to Pawsta
-          </button>
-          
           <div className="bg-white rounded-full p-4 w-20 h-20 mx-auto mb-4 shadow-lg">
             <PawPrint className="h-12 w-12 text-orange-500 mx-auto" />
           </div>

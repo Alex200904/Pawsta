@@ -10,7 +10,7 @@ import { rescuedPets, availablePets, vaccinationCenters, vetHospitals } from './
 function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
-  const [showLogin, setShowLogin] = useState(false);
+  const [showLogin, setShowLogin] = useState(true);
 
   const handleAdopt = (petId: string) => {
     const pet = availablePets.find(p => p.id === petId);
@@ -22,14 +22,17 @@ function App() {
   const handleLogin = (userData: { name: string; email: string }) => {
     setUser(userData);
     setShowLogin(false);
+    setActiveSection('home');
   };
 
   const handleLogout = () => {
     setUser(null);
+    setShowLogin(true);
     setActiveSection('home');
   };
 
-  if (showLogin) {
+  // Show login page if user is not authenticated
+  if (!user || showLogin) {
     return <LoginPage onLogin={handleLogin} onBack={() => setShowLogin(false)} />;
   }
 
