@@ -1,12 +1,21 @@
 import React from 'react';
-import { Heart, MapPin, Stethoscope, Syringe, PawPrint } from 'lucide-react';
+import { Heart, MapPin, Stethoscope, Syringe, PawPrint, User, LogOut } from 'lucide-react';
 
 interface HeaderProps {
   activeSection: string;
   onSectionChange: (section: string) => void;
+  user?: { name: string; email: string } | null;
+  onLogin?: () => void;
+  onLogout?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ activeSection, onSectionChange }) => {
+const Header: React.FC<HeaderProps> = ({ 
+  activeSection, 
+  onSectionChange, 
+  user, 
+  onLogin, 
+  onLogout 
+}) => {
   const navItems = [
     { id: 'home', label: 'Home', icon: PawPrint },
     { id: 'rescued', label: 'Rescued Pets', icon: Heart },
@@ -41,6 +50,31 @@ const Header: React.FC<HeaderProps> = ({ activeSection, onSectionChange }) => {
               </button>
             ))}
           </nav>
+
+          <div className="flex items-center space-x-4">
+            {user ? (
+              <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2 bg-orange-50 px-3 py-2 rounded-lg">
+                  <User className="h-4 w-4 text-orange-600" />
+                  <span className="text-sm font-medium text-orange-600">{user.name}</span>
+                </div>
+                <button
+                  onClick={onLogout}
+                  className="flex items-center space-x-1 text-gray-600 hover:text-red-600 transition-colors"
+                  title="Logout"
+                >
+                  <LogOut className="h-4 w-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={onLogin}
+                className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              >
+                Sign In
+              </button>
+            )}
+          </div>
 
           <div className="md:hidden">
             <select

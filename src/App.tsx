@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import LoginPage from './components/LoginPage';
 import PetCard from './components/PetCard';
 import ServiceCard from './components/ServiceCard';
 import MyDoctor from './components/MyDoctor';
@@ -8,6 +9,8 @@ import { rescuedPets, availablePets, vaccinationCenters, vetHospitals } from './
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [showLogin, setShowLogin] = useState(false);
 
   const handleAdopt = (petId: string) => {
     const pet = availablePets.find(p => p.id === petId);
@@ -15,6 +18,20 @@ function App() {
       alert(`Thank you for your interest in ${pet.name}! We'll contact you soon to schedule a meeting.`);
     }
   };
+
+  const handleLogin = (userData: { name: string; email: string }) => {
+    setUser(userData);
+    setShowLogin(false);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setActiveSection('home');
+  };
+
+  if (showLogin) {
+    return <LoginPage onLogin={handleLogin} onBack={() => setShowLogin(false)} />;
+  }
 
   const renderContent = () => {
     switch (activeSection) {
@@ -131,7 +148,13 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header activeSection={activeSection} onSectionChange={setActiveSection} />
+      <Header 
+        activeSection={activeSection} 
+        onSectionChange={setActiveSection}
+        user={user}
+        onLogin={() => setShowLogin(true)}
+        onLogout={handleLogout}
+      />
       <main>
         {renderContent()}
       </main>
