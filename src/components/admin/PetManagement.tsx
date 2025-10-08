@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Edit2, Trash2, Search, X } from 'lucide-react';
+import { Plus, CreditCard as Edit2, Trash2, Search, X } from 'lucide-react';
 
 interface Pet {
   id: string;
