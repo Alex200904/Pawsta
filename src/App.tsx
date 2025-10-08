@@ -1,16 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import LoginPage from './components/LoginPage';
 import PetCard from './components/PetCard';
 import ServiceCard from './components/ServiceCard';
 import MyDoctor from './components/MyDoctor';
+import AdminPanel from './components/admin/AdminPanel';
 import { rescuedPets, availablePets, vaccinationCenters, vetHospitals } from './data/mockData';
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
   const [showLogin, setShowLogin] = useState(true);
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
+
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+        e.preventDefault();
+        setShowAdminPanel(prev => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
 
   const handleAdopt = (petId: string) => {
     const pet = availablePets.find(p => p.id === petId);
@@ -30,6 +44,11 @@ function App() {
     setShowLogin(true);
     setActiveSection('home');
   };
+
+  // Show admin panel if requested (access via /admin or special route)
+  if (showAdminPanel) {
+    return <AdminPanel />;
+  }
 
   // Show login page if user is not authenticated
   if (!user || showLogin) {
@@ -200,6 +219,12 @@ function App() {
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
             <p>&copy; 2025 Pawsta. All rights reserved. Made with ❤️ for pets and their families.</p>
+            <button
+              onClick={() => setShowAdminPanel(true)}
+              className="mt-4 text-xs text-gray-600 hover:text-gray-400 transition"
+            >
+              Admin Access
+            </button>
           </div>
         </div>
       </footer>
