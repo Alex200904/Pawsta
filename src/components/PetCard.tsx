@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MapPin, Heart, Check, X } from 'lucide-react';
 import { Pet } from '../types';
+import ScheduleForm from './ScheduleForm';
 
 interface PetCardProps {
   pet: Pet;
@@ -9,6 +10,7 @@ interface PetCardProps {
 }
 
 const PetCard: React.FC<PetCardProps> = ({ pet, showAdoptButton = false, onAdopt }) => {
+  const [showScheduleForm, setShowScheduleForm] = useState(false);
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
       <div className="relative">
@@ -66,13 +68,20 @@ const PetCard: React.FC<PetCardProps> = ({ pet, showAdoptButton = false, onAdopt
         
         {showAdoptButton && (
           <button
-            onClick={() => onAdopt?.(pet.id)}
+            onClick={() => setShowScheduleForm(true)}
             className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200"
           >
             Schedule Meeting
           </button>
         )}
       </div>
+
+      {showScheduleForm && (
+        <ScheduleForm
+          pet={pet}
+          onClose={() => setShowScheduleForm(false)}
+        />
+      )}
     </div>
   );
 };
