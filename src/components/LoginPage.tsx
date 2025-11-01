@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, PawPrint, Mail, Lock, User, ArrowRight } from 'lucide-react';
+import SocialLogin from './SocialLogin';
 
 interface LoginPageProps {
   onLogin: (user: { name: string; email: string }) => void;
@@ -10,6 +11,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [showSocialLogin, setShowSocialLogin] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
   const [resetEmailSent, setResetEmailSent] = useState(false);
   const [formData, setFormData] = useState({
@@ -27,34 +29,22 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
     });
   };
 
-  const handleGoogleLogin = async () => {
-    setIsLoading(true);
-    
-    // Simulate Google OAuth flow
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Mock successful Google login
-    const mockGoogleUser = {
-      name: 'John Doe',
-      email: 'john.doe@gmail.com'
-    };
-    
-    onLogin(mockGoogleUser);
-    setIsLoading(false);
+  const handleGoogleLogin = () => {
+    setShowSocialLogin(true);
   };
 
   const handleFacebookLogin = async () => {
     setIsLoading(true);
-    
+
     // Simulate Facebook OAuth flow
     await new Promise(resolve => setTimeout(resolve, 2000));
-    
+
     // Mock successful Facebook login
     const mockFacebookUser = {
       name: 'Jane Smith',
       email: 'jane.smith@facebook.com'
     };
-    
+
     onLogin(mockFacebookUser);
     setIsLoading(false);
   };
@@ -102,6 +92,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  // Show Social Login Modal
+  if (showSocialLogin) {
+    return (
+      <SocialLogin
+        onLoginSuccess={onLogin}
+        onBack={() => setShowSocialLogin(false)}
+      />
+    );
+  }
 
   // Forgot Password Modal/Form
   if (showForgotPassword) {
