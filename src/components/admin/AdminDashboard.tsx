@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { BarChart3, PawPrint, Users, Calendar, CheckCircle, XCircle, TrendingUp, LogOut } from 'lucide-react';
+import { BarChart3, PawPrint, Users, Calendar, CheckCircle, XCircle, TrendingUp, LogOut, AlertTriangle, Heart } from 'lucide-react';
 import PetManagement from './PetManagement';
 import UserManagement from './UserManagement';
 import AppointmentManagement from './AppointmentManagement';
 import ConsultationManagement from './ConsultationManagement';
+import AdoptionInquiries from './AdoptionInquiries';
+import RescueRequests from './RescueRequests';
 
 interface AdminDashboardProps {
   onLogout: () => void;
 }
 
 export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'pets' | 'users' | 'appointments' | 'consultations'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'pets' | 'users' | 'appointments' | 'consultations' | 'adoptions' | 'rescues'>('overview');
 
   const stats = [
     {
@@ -124,6 +126,26 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
           >
             Consultations
           </button>
+          <button
+            onClick={() => setActiveTab('adoptions')}
+            className={`px-6 py-3 rounded-lg font-medium whitespace-nowrap transition ${
+              activeTab === 'adoptions'
+                ? 'bg-slate-900 text-white'
+                : 'bg-white text-slate-700 hover:bg-slate-100'
+            }`}
+          >
+            Adoption Inquiries
+          </button>
+          <button
+            onClick={() => setActiveTab('rescues')}
+            className={`px-6 py-3 rounded-lg font-medium whitespace-nowrap transition ${
+              activeTab === 'rescues'
+                ? 'bg-slate-900 text-white'
+                : 'bg-white text-slate-700 hover:bg-slate-100'
+            }`}
+          >
+            Rescue Requests
+          </button>
         </div>
 
         {activeTab === 'overview' && (
@@ -228,6 +250,8 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         {activeTab === 'users' && <UserManagement />}
         {activeTab === 'appointments' && <AppointmentManagement />}
         {activeTab === 'consultations' && <ConsultationManagement />}
+        {activeTab === 'adoptions' && <AdoptionInquiries />}
+        {activeTab === 'rescues' && <RescueRequests />}
       </div>
     </div>
   );
