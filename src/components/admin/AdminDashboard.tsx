@@ -240,6 +240,26 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       <p className="text-sm text-slate-600">View and manage user accounts</p>
                     </div>
                   </button>
+                  <button
+                    onClick={() => setActiveTab('adoptions')}
+                    className="flex items-center gap-3 p-4 bg-slate-50 hover:bg-slate-100 rounded-lg transition text-left"
+                  >
+                    <Heart className="w-5 h-5 text-slate-700" />
+                    <div>
+                      <p className="font-medium text-slate-900">Adoption Inquiries</p>
+                      <p className="text-sm text-slate-600">Track pet adoption requests</p>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('rescues')}
+                    className="flex items-center gap-3 p-4 bg-slate-50 hover:bg-slate-100 rounded-lg transition text-left"
+                  >
+                    <AlertTriangle className="w-5 h-5 text-slate-700" />
+                    <div>
+                      <p className="font-medium text-slate-900">Rescue Requests</p>
+                      <p className="text-sm text-slate-600">Monitor pet rescue operations</p>
+                    </div>
+                  </button>
                 </div>
               </div>
             </div>
